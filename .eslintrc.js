@@ -17,7 +17,7 @@ module.exports = {
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'never'],
     'import/no-unresolved': ['off'],
-    'linebreak-style': ['warn', 'windows'],
+    'linebreak-style': 'off',
     'max-len': ['error', { 'code': 120 }],
     'no-console': 'off',
     'no-param-reassign': ['error', { 'props': false }],
@@ -40,4 +40,4 @@ module.exports = {
       }
     }
   ]
-}
+};
