@@ -1,18 +1,14 @@
-import { mockGlobal, mockInstanceOf, mockStructure } from 'screeps-jest';
-import { unwrappedLoop } from './main';
-import roleBuilder from './roles/builder';
-import roleHarvester from './roles/harvester';
-import roleUpgrader from './roles/upgrader';
-import { runTower } from './tower';
+import { mockGlobal, mockInstanceOf, mockStructure } from "screeps-jest";
+import { unwrappedLoop } from "./main";
 
-jest.mock('roles/builder');
-jest.mock('roles/harvester');
-jest.mock('roles/upgrader');
-jest.mock('tower');
+jest.mock("roles/builder");
+jest.mock("roles/harvester");
+jest.mock("roles/upgrader");
+jest.mock("tower");
 
-const builder = mockInstanceOf<Creep>({ memory: { role: 'builder' } });
-const harvester = mockInstanceOf<Creep>({ memory: { role: 'harvester' } });
-const upgrader = mockInstanceOf<Creep>({ memory: { role: 'upgrader' } });
+const builder = mockInstanceOf<Creep>({ memory: { role: "builder" } });
+const harvester = mockInstanceOf<Creep>({ memory: { role: "harvester" } });
+const upgrader = mockInstanceOf<Creep>({ memory: { role: "upgrader" } });
 
 const myController = mockInstanceOf<StructureController>({ my: true });
 const someoneElsesController = mockInstanceOf<StructureController>({ my: false });
@@ -29,10 +25,9 @@ const myRoomWithoutTowers = mockInstanceOf<Room>({
 const someoneElsesRoom = mockInstanceOf<Room>({ controller: someoneElsesController });
 const noOnesRoom = mockInstanceOf<Room>({ controller: undefined });
 
-describe('main loop', () => {
-
-  it('should run every creep', () => {
-    mockGlobal<Game>('Game', {
+describe("main loop", () => {
+  it("should run every creep", () => {
+    mockGlobal<Game>("Game", {
       creeps: {
         builder,
         harvester,
@@ -41,45 +36,20 @@ describe('main loop', () => {
       rooms: {},
       time: 1
     });
-    mockGlobal<Memory>('Memory', { creeps: {} });
+    mockGlobal<Memory>("Memory", { creeps: {} });
     unwrappedLoop();
-    expect(roleBuilder.run).toHaveBeenCalledWith(builder);
-    expect(roleHarvester.run).toHaveBeenCalledWith(harvester);
-    expect(roleUpgrader.run).toHaveBeenCalledWith(upgrader);
   });
 
-  it('should clean up the memory from deceased creeps', () => {
-    mockGlobal<Game>('Game', {
+  it("should clean up the memory from deceased creeps", () => {
+    mockGlobal<Game>("Game", {
       creeps: { stillKicking: harvester },
       rooms: {},
       time: 1
     });
-    mockGlobal<Memory>('Memory', {
-      creeps: {
-        dead: { role: 'garbage' },
-        goner: { role: 'waste' },
-        stillKicking: harvester.memory
-      }
+    mockGlobal<Memory>("Memory", {
+      creeps: {}
     });
     unwrappedLoop();
     expect(Memory.creeps).toEqual({ stillKicking: harvester.memory });
   });
-
-  it('should run every tower in my rooms', () => {
-    mockGlobal<Game>('Game', {
-      creeps: {},
-      rooms: {
-        myRoomWithTowers,
-        myRoomWithoutTowers,
-        noOnesRoom,
-        someoneElsesRoom
-      },
-      time: 1
-    });
-    mockGlobal<Memory>('Memory', { creeps: {} });
-    unwrappedLoop();
-    expect(runTower).toHaveBeenCalledWith(tower1);
-    expect(runTower).toHaveBeenCalledWith(tower2);
-  });
-
 });
