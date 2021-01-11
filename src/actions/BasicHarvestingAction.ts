@@ -9,8 +9,9 @@ class BasicHarvestingAction extends Action {
         return;
     }
     public execute(): boolean {
-        let creep = Game.getObjectById(this.creepId) as Creep;
+        let creep = Game.getObjectById(this.creepId);
         let source = Game.getObjectById(this.sourceId) as Source;
+        if (!creep) { this.isComplete = true; return true; } // if creep is dead
         !creep.store.getFreeCapacity() ?
             (
                 creep.transfer(Game.spawns.Spawn1, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE ?

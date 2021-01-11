@@ -14,7 +14,7 @@ class Root {
 
         let source: Source = Game.spawns.Spawn1.room.find(FIND_SOURCES)[0];
         _.map(Game.creeps, (creep: Creep) => {
-            if (creep.reserved) {
+            if (!creep.reserved) {
                 creep.reserved = true;
                 CreepActions.basicCreepHarvesting(creep.id, source.id);
             }

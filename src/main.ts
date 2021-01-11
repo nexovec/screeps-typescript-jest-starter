@@ -2,9 +2,17 @@ import "prototypes";
 import Root from "Root";
 import ErrorMapper from "utils/ErrorMapper";
 
+
+function recoverMemory() {
+  if (!Memory.creeps)
+    Memory.creeps = {};
+}
+recoverMemory();
 function unwrappedLoop() {
   // console.log(`Current game tick is ${Game.time}`);
-
+  Object.keys(Memory.creeps)
+    .filter(name => !(name in Game.creeps))
+    .forEach(name => delete Memory.creeps[name]);
   // Automatically delete memory of missing creeps
   Object.keys(Memory.creeps)
     .filter((name) => !(name in Game.creeps))

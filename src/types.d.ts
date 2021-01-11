@@ -4,6 +4,9 @@
 interface CreepMemory {
 
 }
+interface Creep {
+  reserved: boolean;
+}
 
 interface Memory {
   uuid: number;

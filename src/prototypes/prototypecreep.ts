@@ -1,8 +1,8 @@
-import "lodash";
-let cache: { [name: string]: boolean } = {};
+export { }
+const cache: { [name: string]: boolean } = {};
 // FIXME: probably wrong
 Object.defineProperty(Creep.prototype, "reserved", {
-    get() {
+    get(): boolean {
         if (!cache[this.id])
             cache[this.id] = false;
         return cache[this.id];

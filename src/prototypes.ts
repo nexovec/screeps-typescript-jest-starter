@@ -1,1 +1,1 @@
-import "prototypes/creepprototype";
+import "prototypes/prototypecreep";
