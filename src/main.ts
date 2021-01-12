@@ -9,6 +9,7 @@ function unwrappedLoop() {
     .filter((name) => !(name in Game.creeps))
     .forEach((name) => delete Memory.creeps[name]);
 
+  // make one worker
   // make pixels
   if (Game.cpu.bucket > 9000) Game.cpu.generatePixel();
 }
