@@ -1,4 +1,5 @@
-import { uniqueId } from "lodash";
+
+import Root from "Root";
 import ErrorMapper from "utils/ErrorMapper";
 
 function unwrappedLoop() {
@@ -8,22 +9,7 @@ function unwrappedLoop() {
   Object.keys(Memory.creeps)
     .filter((name) => !(name in Game.creeps))
     .forEach((name) => delete Memory.creeps[name]);
-
-  // make one worker
-  Game.spawns.Spawn1.spawnCreep([WORK, CARRY, MOVE], _.uniqueId("nex#"))
-
-  let source: Source = Game.spawns.Spawn1.room.find(FIND_SOURCES)[0];
-  _.map(Game.creeps, creep =>
-    !creep.store.getFreeCapacity() ?
-      (
-        creep.transfer(Game.spawns.Spawn1, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE ?
-          creep.moveTo(Game.spawns.Spawn1) :
-          console.log("transfered energy to source?")
-      ) :
-      creep.harvest(source) == ERR_NOT_IN_RANGE ?
-        creep.moveTo(source) :
-        console.log("harvesting!")
-  );
+  Root.get().loop();
   // make pixels
   if (Game.cpu.bucket <= 10000 && Game.cpu.generatePixel)
     if (Game.cpu.bucket > 9000) Game.cpu.generatePixel();

@@ -2,7 +2,7 @@
 
 // memory extension samples
 interface CreepMemory {
-  role: string;
+
 }
 
 interface Memory {
