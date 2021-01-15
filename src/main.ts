@@ -1,4 +1,4 @@
-
+import "prototypes";
 import Root from "Root";
 import ErrorMapper from "utils/ErrorMapper";
 
