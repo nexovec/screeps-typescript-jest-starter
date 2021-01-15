@@ -7,18 +7,15 @@
   "scripts": {
     "lint": "eslint . --ext .js,.ts",
     "lint-stats": "eslint . --ext .js,.ts --format \"node_modules/eslint-stats/byErrorAndWarning.js\"",
-
     "build": "rollup -c",
     "push-main": "rollup -c --environment DEST:main",
     "push-pserver": "rollup -c --environment DEST:pserver",
     "push-sim": "rollup -c --environment DEST:sim",
-
     "test": "jest",
     "test:ci": "jest --ci --reporters='default' --reporters='./github-actions-reporter'",
     "test-watch": "jest --watch",
     "test-cov": "jest --coverage",
     "test-only": "bash -c 'jest --watch --coverage --verbose --collectCoverageFrom=\"**/*$1*\" $1' -- ",
-
     "watch-main": "rollup -cw --environment DEST:main",
     "watch-pserver": "rollup -cw --environment DEST:pserver",
     "watch-sim": "rollup -cw --environment DEST:sim"

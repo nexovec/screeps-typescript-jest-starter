@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable @typescript-eslint/class-name-casing */
 // example declaration file - remove these and add your own custom typings
 
 // memory extension samples
