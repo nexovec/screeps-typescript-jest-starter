@@ -15,7 +15,7 @@ class ActionScheduler {
     }
 
     public loop() {
-        // TODO: add children support
+        // TODO: remove finished actions
         this.actions.map(val => { if (!val.isComplete) val.execute(); return val; });
     }
 
