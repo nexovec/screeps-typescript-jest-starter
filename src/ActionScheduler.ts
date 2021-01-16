@@ -4,7 +4,7 @@ class ActionScheduler {
 
     private static instance: ActionScheduler;
 
-    public actions: Array<Action>;
+    public actions: Action[];
 
     private constructor() {
         this.actions = [];

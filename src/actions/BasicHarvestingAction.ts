@@ -7,7 +7,7 @@ class BasicHarvestingAction extends Action {
   private sourceId: Id<Source>;
 
   public constructor(creepId: Id<Creep>, sourceId: Id<Source>) {
-    super(false);
+    super();
     this.creepId = creepId;
     this.sourceId = sourceId;
   }
@@ -19,8 +19,8 @@ class BasicHarvestingAction extends Action {
     if (creep.harvest(source) === ERR_NOT_IN_RANGE)creep.moveTo(source);
     if (!creep.store.getFreeCapacity()) {
       if (creep.transfer(Game.spawns.Spawn1, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) creep.moveTo(Game.spawns.Spawn1);
+      else this.isComplete = true;
     }
-    // TODO: ensure update of this.isComplete
     return true;
   }
 

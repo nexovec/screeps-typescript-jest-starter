@@ -1,5 +1,5 @@
 import ActionScheduler from 'ActionScheduler';
-import BasicHarvestingAction from 'actions/BasicHarvestingAction';
+import BasicHarvestingQueue from 'actions/queues/BasicHarvestingQueue';
 
 class CreepActions {
 
@@ -7,7 +7,8 @@ class CreepActions {
   private constructor() { }
 
   public static basicCreepHarvesting(creepId: Id<Creep>, sourceId: Id<Source>) {
-    ActionScheduler.get().scheduleAction(new BasicHarvestingAction(creepId, sourceId));
+    // ActionScheduler.get().scheduleAction(new BasicHarvestingAction(creepId, sourceId));
+    ActionScheduler.get().scheduleAction(new BasicHarvestingQueue(creepId, sourceId));
     return OK;
   }
 

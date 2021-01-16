@@ -1,4 +1,4 @@
-# Screeps Typescript + Jest Starter
+# bAIbe bot
 
 ![Tests](https://github.com/nexovec/screeps-typescript-jest-starter/workflows/Tests/badge.svg)
 ![ESLint](https://github.com/nexovec/screeps-typescript-jest-starter/workflows/ESLint/badge.svg)

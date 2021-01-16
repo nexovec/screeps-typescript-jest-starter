@@ -1,9 +1,12 @@
 abstract class Action {
 
+    public blocked: boolean;
+
     public isComplete: boolean;
 
-    public constructor(isComplete: boolean) {
-        this.isComplete = isComplete;
+    public constructor() {
+        this.blocked = false;
+        this.isComplete = false;
     }
 
     public abstract execute(): boolean;
