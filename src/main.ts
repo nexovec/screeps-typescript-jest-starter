@@ -2,6 +2,7 @@ import 'prototypes';
 import Root from 'Root';
 import ErrorMapper from 'utils/ErrorMapper';
 
+console.log('---system reloaded---');
 function recoverMemory() {
   if (!Memory.creeps) Memory.creeps = {};
 }

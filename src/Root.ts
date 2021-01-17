@@ -21,8 +21,10 @@ class Root {
   }
 
   public loop() {
-    // TODO: beware, you're overloading the sources
-    if (this.sm.allSlots >= Object.keys(Game.creeps).length) {
+    // TODO: beware, you're overloading the sources\
+    if (!Game.spawns.Spawn1.room?.controller?.level) console.log('wtf RCL 0??');
+    if ((Game.spawns.Spawn1.room.controller as StructureController).level >= 1) {
+    if (this.sm.allSlots + this.sm.sources.length * this.sm.reserve > Object.keys(Game.creeps).length) {
       Game.spawns.Spawn1.spawnCreep([WORK, CARRY, MOVE], _.uniqueId('nex#'));
     }
     _.map(Game.creeps, (creep: Creep) => {
@@ -34,6 +36,7 @@ class Root {
         }
       }
     });
+  }
     ActionScheduler.get().loop();
   }
 

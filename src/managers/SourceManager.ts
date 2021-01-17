@@ -6,17 +6,21 @@ class SourceManager {
 
     public allSlots: number;
 
+    public reserve: number;
+
     public constructor(room: Room) {
         this.sources = room.find(FIND_SOURCES).map(val => new SourceWrapper(val.id, SourceManager.getSlots(val)));
         this.allSlots = this.sources.reduce((total, val) => total + val.maxSlots, 0);
+        this.reserve = 1;
     }
 
     public reserveSourceSlot(): SourceWrapper | null{
         for (let i = 0; i < this.sources.length; i++) {
             // TODO: temporary! you're overloading the sources!
-            if (this.sources[i].occupiedSlots <= this.sources[i].maxSlots) {
-                this.sources[i].occupiedSlots++;
-                return this.sources[i];
+            const s = this.sources[i];
+            if (s.occupiedSlots <= s.maxSlots + Math.round(this.reserve * (2.0 / 3.0) * s.maxSlots)) {
+                s.occupiedSlots++;
+                return s;
             }
         }
         return null;
