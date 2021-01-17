@@ -1,11 +1,14 @@
-import SourceWrapper from 'SourceWrapper';
+import SourceWrapper from 'wrappers/SourceWrapper';
 
 class SourceManager {
 
     public sources: SourceWrapper[];
 
+    public allSlots: number;
+
     public constructor(room: Room) {
         this.sources = room.find(FIND_SOURCES).map(val => new SourceWrapper(val.id, SourceManager.getSlots(val)));
+        this.allSlots = this.sources.reduce((total, val) => total + val.maxSlots, 0);
     }
 
     public reserveSourceSlot(): SourceWrapper | null{

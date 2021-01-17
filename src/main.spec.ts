@@ -53,7 +53,8 @@ import { unwrappedLoop } from './main';
 //   });
 // });
 describe('main loop', () => {
-  it('should run every creep', () => {});
+  it('tests is operator', () => {
+  });
 
   it('should clean up the memory from deceased creeps', () => {});
 });

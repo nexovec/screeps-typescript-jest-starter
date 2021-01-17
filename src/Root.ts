@@ -1,7 +1,8 @@
 /* eslint-disable class-methods-use-this */
 import ActionScheduler from 'ActionScheduler';
 import CreepActions from 'CreepActions';
-import SourceManager from 'SourceManager';
+import SourceManager from 'managers/SourceManager';
+import SourceWrapper from 'wrappers/SourceWrapper';
 
 class Root {
 
@@ -20,16 +21,17 @@ class Root {
   }
 
   public loop() {
-    Game.spawns.Spawn1.spawnCreep([WORK, CARRY, MOVE], _.uniqueId('nex#'));
-
-    const source: Source = Game.spawns.Spawn1.room.find(FIND_SOURCES)[0];
+    // TODO: don't just keep spawning
+    if (this.sm.allSlots > Object.keys(Game.creeps).length) {
+      Game.spawns.Spawn1.spawnCreep([WORK, CARRY, MOVE], _.uniqueId('nex#'));
+    }
     _.map(Game.creeps, (creep: Creep) => {
       if (!creep.reserved) {
-        creep.reserved = true;
-        // CreepActions.basicCreepHarvesting(creep.id, source.id);
-        // TODO: unreserve the slot
-        const s = this.sm.reserveSourceSlot();
-        if (s) CreepActions.basicCreepHarvesting(creep.id, s?.id);
+        const s: SourceWrapper | null = this.sm.reserveSourceSlot() as SourceWrapper;
+        if (s) {
+          creep.reserved = true;
+          CreepActions.basicCreepHarvesting(creep.id, s);
+        }
       }
     });
     ActionScheduler.get().loop();

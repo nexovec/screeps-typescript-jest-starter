@@ -13,6 +13,7 @@ interface Creep {
 interface Memory {
   uuid: number;
 }
+
 interface _ {
 
 }
