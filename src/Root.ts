@@ -10,8 +10,11 @@ class Root {
 
   private sm: SourceManager;
 
+  private designated: boolean;
+
   private constructor() {
     this.sm = new SourceManager(Game.spawns.Spawn1.room);
+    this.designated = false;
   }
 
   public static get() {
@@ -40,40 +43,42 @@ class Root {
       });
     }
     if (RCL >= 2) {
-      // TODO: construction sites for roads to sources
       const r = spawn.room;
-      // road sites around the spawn
-      SourceManager.getImmediateSurroudings(spawn.pos)
-      .filter(([x, y]) => r.getTerrain().get(x, y) !== TERRAIN_MASK_WALL)
-      .map(([x, y]) => r.createConstructionSite(x, y, STRUCTURE_ROAD));
-      // road sites to sources
-      this.sm.sources
-      .map(val => Game.getObjectById(val.id) as Source)
-      .map(val => PathFinder.search(spawn.pos, val.pos, { swampCost: 1 }).path)
-      .map(val => val
-        .map(pos => r.createConstructionSite(pos.x, pos.y, STRUCTURE_ROAD)));
+      if (!this.designated) {
+        // road sites around the spawn
+        SourceManager.getImmediateSurroudings(spawn.pos)
+        .filter(([x, y]) => r.getTerrain().get(x, y) !== TERRAIN_MASK_WALL)
+        .map(([x, y]) => r.createConstructionSite(x, y, STRUCTURE_ROAD));
 
-      // road sites from controller to spawn
-      PathFinder.search(r.controller?.pos as RoomPosition, spawn.pos, { swampCost: 1 }).path
-      .map(pos => r.createConstructionSite(pos.x, pos.y, STRUCTURE_ROAD));
+        // road sites to sources
+        this.sm.sources
+        .map(val => Game.getObjectById(val.id) as Source)
+        .map(val => PathFinder.search(spawn.pos, val.pos, { swampCost: 1 }).path)
+        .map(val => val
+          .map(pos => r.createConstructionSite(pos.x, pos.y, STRUCTURE_ROAD)));
 
-      // add controller to source road sites if that path is efficient
-      this.sm.sources
-      .map(val => Game.getObjectById(val.id) as Source)
-      .map(val => {
-        const bypass = PathFinder.search(spawn.pos, r.controller?.pos as RoomPosition, { swampCost: 1 });
-        const home = PathFinder.search(spawn.pos, val.pos, { swampCost: 1 });
-        const direct = PathFinder.search(r.controller?.pos as RoomPosition, val.pos, { swampCost: 1 });
-        if (bypass.cost + home.cost > (4.0 / 3.0) * direct.cost) {
-        // if (bypass.cost > direct.cost) {
-          direct.path
-            .map(pos => r.createConstructionSite(pos.x, pos.y, STRUCTURE_ROAD));
-        }
-        return true;
-      });
-      // TODO: construction sites for extensions with A*
-      // TODO: build extensions
-      // TODO: build roads to sources
+        // road sites from controller to spawn
+        PathFinder.search(r.controller?.pos as RoomPosition, spawn.pos, { swampCost: 1 }).path
+        .map(pos => r.createConstructionSite(pos.x, pos.y, STRUCTURE_ROAD));
+
+        // add controller to source road sites if that path is efficient
+        this.sm.sources
+        .map(val => Game.getObjectById(val.id) as Source)
+        .map(val => {
+          const bypass = PathFinder.search(spawn.pos, r.controller?.pos as RoomPosition, { swampCost: 1 });
+          const home = PathFinder.search(spawn.pos, val.pos, { swampCost: 1 });
+          const direct = PathFinder.search(r.controller?.pos as RoomPosition, val.pos, { swampCost: 1 });
+          if (bypass.cost + home.cost > (4.0 / 3.0) * direct.cost) {
+            direct.path
+              .map(pos => r.createConstructionSite(pos.x, pos.y, STRUCTURE_ROAD));
+          }
+          return true;
+        });
+        this.designated = true;
+      }
+        // TODO: construction sites for extensions with A*
+        // TODO: build extensions
+        // TODO: build roads to sources
     }
     ActionScheduler.get().loop();
   }
