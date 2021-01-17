@@ -13,7 +13,8 @@ class SourceManager {
 
     public reserveSourceSlot(): SourceWrapper | null{
         for (let i = 0; i < this.sources.length; i++) {
-            if (this.sources[i].occupiedSlots < this.sources[i].maxSlots) {
+            // TODO: temporary! you're overloading the sources!
+            if (this.sources[i].occupiedSlots <= this.sources[i].maxSlots) {
                 this.sources[i].occupiedSlots++;
                 return this.sources[i];
             }

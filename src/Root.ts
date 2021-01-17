@@ -21,8 +21,8 @@ class Root {
   }
 
   public loop() {
-    // TODO: don't just keep spawning
-    if (this.sm.allSlots > Object.keys(Game.creeps).length) {
+    // TODO: beware, you're overloading the sources
+    if (this.sm.allSlots >= Object.keys(Game.creeps).length) {
       Game.spawns.Spawn1.spawnCreep([WORK, CARRY, MOVE], _.uniqueId('nex#'));
     }
     _.map(Game.creeps, (creep: Creep) => {
