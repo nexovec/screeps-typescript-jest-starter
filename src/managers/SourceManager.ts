@@ -11,7 +11,7 @@ class SourceManager {
   public constructor(room: Room) {
     this.sources = room.find(FIND_SOURCES).map(val => new SourceWrapper(val.id, SourceManager.getSlots(val)));
     this.allSlots = this.sources.reduce((total, val) => total + val.maxSlots, 0);
-    this.reserves = this.sources.reduce((total, val) => total + Math.round(val.maxSlots * (2.0 / 3.0)), 0);
+    this.reserves = this.sources.reduce((total, val) => total + Math.round(val.maxSlots + 2), 0);
   }
 
   public reserveSourceSlot(): SourceWrapper | null {

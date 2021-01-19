@@ -48,7 +48,7 @@ class Root {
       const code = Game.spawns.Spawn1.spawnCreep([WORK, CARRY, MOVE], name);
       if (code === OK) {
         const selection = _.filter(Game.creeps, val => val.name === name);
-        if (!selection.length) throw new Error('How does this even not work??');
+        if (!selection.length) throw new Error('no creep with the specified name!');
         console.log(JSON.stringify(selection));
         const creepId = selection[0].id;
         this.cp.addCreep(creepId);
@@ -78,7 +78,7 @@ class Root {
           const s: SourceWrapper | null = this.sm.reserveSourceSlot();
           if (s && Root.harvesterCount(this.cp) < demandedHarvesters) {
             this.cp.makeCreepReserved(creep.id, 'harvesting');
-            console.log('wtf is going on?!');
+            console.log('spawning harvester');
             CreepActions.basicCreepHarvesting(creep, s);
           } else {
             this.cp.makeCreepReserved(creep.id, 'hauling');
@@ -91,6 +91,7 @@ class Root {
       // schedule haulers
       const hauler = this.spawnCreepIfNCapped(demandedHarvesters + 2);
       if (hauler) {
+        console.log('spawned hauler');
         this.cp.makeCreepReserved(hauler.id, 'hauling');
         CreepActions.creepHauling(hauler, r);
       }

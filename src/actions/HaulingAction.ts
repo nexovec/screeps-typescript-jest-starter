@@ -17,6 +17,7 @@ class HaulingAction extends Action {
     this.creep = creep;
     this.siteId = null;
     creep.reserved = true;
+    creep.data.performing = 'hauling';
   }
 
   public execute(): boolean {

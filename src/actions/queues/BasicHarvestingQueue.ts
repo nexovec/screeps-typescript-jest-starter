@@ -13,7 +13,7 @@ class BasicHarvestingQueue extends ActionQueue {
     super();
     this.creep = creep;
     this.source = source;
-    for (let i = 0; i < 20; i++) this.actions.push(new BasicHarvestingAction(creep, source));
+    for (let i = 0; i < 50; i++) this.actions.push(new BasicHarvestingAction(creep, source));
     // TODO: send extra creep to each source to cover for absence, make him switch with more productive creep
     creep.reserved = true;
     // FIXME: this needs to be set to false somewhere

@@ -12,12 +12,14 @@ class BasicHarvestingAction extends Action {
 
   private depositing: boolean;
 
-  public constructor(creepId: CreepWrapper, source: SourceWrapper) {
+  public constructor(creep: CreepWrapper, source: SourceWrapper) {
     super();
-    this.creep = creepId;
+    this.creep = creep;
     this.source = source;
     this.depo = Game.spawns.Spawn1;
     this.depositing = false;
+    this.creep.reserved = true;
+    this.creep.data.performing = 'harvesting';
   }
 
   public execute(): boolean {
