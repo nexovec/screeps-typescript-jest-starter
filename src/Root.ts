@@ -63,7 +63,11 @@ class Root {
 
       // scheduling harvesters
       _.map(Game.creeps, (creep: Creep) => {
-        if (!this.cp.containsCreep(creep.id)) this.cp.addCreep(creep.id);
+        if (!this.cp.containsCreep(creep.id)) {
+          // console.log('Watch out, we have an unreserved rebel here!');
+          this.cp.addCreep(creep.id);
+        }
+        // schedule harvesters
         if (!creep.reserved) {
           // TODO: make this use CreepPool for unnreserved creep requests
           const s: SourceWrapper | null = this.sm.reserveSourceSlot() as SourceWrapper;
@@ -74,12 +78,12 @@ class Root {
         }
       });
 
-      // scheduling haulers
-      // const hauler = this.spawnCreepIfNCapped(this.sm.allSlots + this.sm.reserves + 2);
-      // if (hauler) {
-      //   this.cp.makeCreepReserved(hauler.id);
-      //   CreepActions.creepHauling(hauler, r);
-      // }
+      // schedule haulers
+      const hauler = this.spawnCreepIfNCapped(this.sm.allSlots + this.sm.reserves + 2);
+      if (hauler) {
+        this.cp.makeCreepReserved(hauler.id);
+        CreepActions.creepHauling(hauler, r);
+      }
     }
     if (RCL >= 2) {
       if (!this.designated) {
