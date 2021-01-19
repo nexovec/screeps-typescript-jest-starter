@@ -36,7 +36,7 @@ class BasicHarvestingAction extends Action {
     }
 
     // switch to controller upgrading when spawn is full
-    // FIXME: not optimal, will agro creeps when not needed
+    // NOTE: not optimal, will agro creeps when not needed
     if (Game.spawns.Spawn1.store.energy === 300) {
       // console.log(Game.spawns.Spawn1.store.energy);
       this.depo = c;

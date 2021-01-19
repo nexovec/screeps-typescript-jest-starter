@@ -19,5 +19,14 @@
   },
   "[typescript]": {
     "editor.formatOnSave": true
-  }
+  },
+  "bracket-pair-colorizer-2.colors": [
+
+    "Gold",
+    "Orchid",
+    "Green",
+    "LightSkyBlue",
+    "Orange"
+  ],
+  "bracket-pair-colorizer-2.colorMode": "Independent"
 }
