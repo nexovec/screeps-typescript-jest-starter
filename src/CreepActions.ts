@@ -10,7 +10,7 @@ class CreepActions {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() { }
 
-  public static basicCreepHarvesting(creep: Id<Creep>, source: SourceWrapper) {
+  public static basicCreepHarvesting(creep: CreepWrapper, source: SourceWrapper) {
     // ActionScheduler.get().scheduleAction(new BasicHarvestingAction(creepId, sourceId));
     ActionScheduler.get().scheduleAction(new BasicHarvestingQueue(creep, source));
     return OK;

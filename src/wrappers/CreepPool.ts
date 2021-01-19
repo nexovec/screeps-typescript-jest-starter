@@ -4,7 +4,7 @@ class CreepPool {
 
   // TODO: make this a wrapper for spawning as well
 
-  private creeps: CreepWrapper[];
+  public creeps: CreepWrapper[];
 
   public constructor() {
     // TODO:
@@ -12,7 +12,7 @@ class CreepPool {
   }
 
   public containsCreep(creep: Id<Creep>) {
-      return !!this.creeps.filter(val => val.id === creep).length;
+    return !!this.creeps.filter(val => val.id === creep).length;
   }
 
   public getCreep(creep: Id<Creep>) {
@@ -25,10 +25,13 @@ class CreepPool {
     this.creeps.push(new CreepWrapper(creep));
   }
 
-  public makeCreepReserved(creepId: Id<Creep>) {
+  public makeCreepReserved(creepId: Id<Creep>, performing: string) {
     const creep = this.creeps.filter(val => val.id === creepId)[0];
-    if (creep) creep.reserved = true;
-    else console.log(`creep with id: ${creepId} doesn't exist`);
+    if (creep) {
+      // TODO: undo this on finished task queue
+      creep.data.performing = performing;
+      creep.reserved = true;
+    } else console.log(`creep with id: ${creepId} doesn't exist`);
   }
 
   public makeCreepUnreserved(creep: Id<Creep>) {
@@ -38,8 +41,6 @@ class CreepPool {
   // eslint-disable-next-line class-methods-use-this
   public loop() {
     // TODO: check for this.creeps duplicates
-    // eslint-disable-next-line no-useless-return
-    return;
   }
 
 }

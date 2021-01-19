@@ -4,9 +4,12 @@ class CreepWrapper {
 
   public reserved: boolean;
 
+  public data: {[index: string]: string};
+
   public constructor(id: Id<Creep>) {
     this.id = id;
     this.reserved = false;
+    this.data = {};
   }
 
 }

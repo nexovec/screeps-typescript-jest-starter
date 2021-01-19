@@ -1,9 +1,10 @@
 import Action from 'actions/Action';
+import CreepWrapper from 'wrappers/CreepWrapper';
 import SourceWrapper from 'wrappers/SourceWrapper';
 
 class BasicHarvestingAction extends Action {
 
-  private creepId: Id<Creep>;
+  private creep: CreepWrapper;
 
   private source: SourceWrapper;
 
@@ -11,21 +12,23 @@ class BasicHarvestingAction extends Action {
 
   private depositing: boolean;
 
-  public constructor(creepId: Id<Creep>, source: SourceWrapper) {
+  public constructor(creepId: CreepWrapper, source: SourceWrapper) {
     super();
-    this.creepId = creepId;
+    this.creep = creepId;
     this.source = source;
     this.depo = Game.spawns.Spawn1;
     this.depositing = false;
   }
 
   public execute(): boolean {
-    const creep = Game.getObjectById(this.creepId);
+    console.log("I'm a harvester");
+    const creep = Game.getObjectById(this.creep.id);
     const source = Game.getObjectById(this.source.id) as Source;
     const c = Game.spawns.Spawn1.room.controller as StructureController;
 
     // if creep is dead
     if (!creep) {
+      this.creep.data.performing = 'dead';
       this.isComplete = true;
       return true;
     }

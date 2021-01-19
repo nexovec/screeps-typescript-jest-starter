@@ -28,6 +28,13 @@ class Root {
     this.cp = new CreepPool();
     this.designated = false;
     this.constructionSites = [];
+    // register live creeps
+    _.map(Game.creeps, creep => {
+      if (!this.cp.containsCreep(creep.id)) {
+        console.log('Watch out, we have an unreserved rebel here!');
+        this.cp.addCreep(creep.id);
+      }
+    });
   }
 
   public static get() {
@@ -44,11 +51,15 @@ class Root {
         if (!selection.length) throw new Error('How does this even not work??');
         console.log(JSON.stringify(selection));
         const creepId = selection[0].id;
-        this.cp.addCreep(creepId); // TODO: you'll forget to do this everytime you spawn
+        this.cp.addCreep(creepId);
         return this.cp.getCreep(creepId);
       }
     }
     return null;
+  }
+
+  public static harvesterCount(cp: CreepPool) {
+    return cp.creeps.filter(val => val.data && val.data.performing === 'harvesting').length;
   }
 
   public loop() {
@@ -59,29 +70,28 @@ class Root {
     const r = spawn.room;
 
     if (RCL >= 1) {
-      this.spawnCreepIfNCapped(this.sm.allSlots + this.sm.reserves);
-
-      // scheduling harvesters
-      _.map(Game.creeps, (creep: Creep) => {
-        if (!this.cp.containsCreep(creep.id)) {
-          // console.log('Watch out, we have an unreserved rebel here!');
-          this.cp.addCreep(creep.id);
-        }
-        // schedule harvesters
+      // schedule harvesters
+      const demandedHarvesters = this.sm.allSlots + this.sm.reserves;
+      this.spawnCreepIfNCapped(demandedHarvesters);
+      this.cp.creeps.map(creep => {
         if (!creep.reserved) {
-          // TODO: make this use CreepPool for unnreserved creep requests
-          const s: SourceWrapper | null = this.sm.reserveSourceSlot() as SourceWrapper;
-          if (s) {
-            this.cp.makeCreepReserved(creep.id);
-            CreepActions.basicCreepHarvesting(creep.id, s);
+          const s: SourceWrapper | null = this.sm.reserveSourceSlot();
+          if (s && Root.harvesterCount(this.cp) < demandedHarvesters) {
+            this.cp.makeCreepReserved(creep.id, 'harvesting');
+            console.log('wtf is going on?!');
+            CreepActions.basicCreepHarvesting(creep, s);
+          } else {
+            this.cp.makeCreepReserved(creep.id, 'hauling');
+            CreepActions.creepHauling(creep, r);
           }
         }
+        return true;
       });
 
       // schedule haulers
-      const hauler = this.spawnCreepIfNCapped(this.sm.allSlots + this.sm.reserves + 2);
+      const hauler = this.spawnCreepIfNCapped(demandedHarvesters + 2);
       if (hauler) {
-        this.cp.makeCreepReserved(hauler.id);
+        this.cp.makeCreepReserved(hauler.id, 'hauling');
         CreepActions.creepHauling(hauler, r);
       }
     }
