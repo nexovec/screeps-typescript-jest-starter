@@ -71,8 +71,8 @@ class Root {
 
     if (RCL >= 1) {
       // schedule harvesters
-      const demandedHarvesters = this.sm.allSlots + this.sm.reserves;
-      this.spawnCreepIfNCapped(demandedHarvesters);
+      const demandedHarvesters = this.sm.allSlots + 3;
+      const hauler = this.spawnCreepIfNCapped(demandedHarvesters + 1);
       this.cp.creeps.map(creep => {
         if (!creep.reserved) {
           const s: SourceWrapper | null = this.sm.reserveSourceSlot();
@@ -80,7 +80,7 @@ class Root {
             this.cp.makeCreepReserved(creep.id, 'harvesting');
             console.log('spawning harvester');
             CreepActions.basicCreepHarvesting(creep, s);
-          } else {
+          } else { // FIXME: haulingQueue gets terminated, don't know why
             this.cp.makeCreepReserved(creep.id, 'hauling');
             CreepActions.creepHauling(creep, r);
           }
@@ -89,7 +89,6 @@ class Root {
       });
 
       // schedule haulers
-      const hauler = this.spawnCreepIfNCapped(demandedHarvesters + 2);
       if (hauler) {
         console.log('spawned hauler');
         this.cp.makeCreepReserved(hauler.id, 'hauling');

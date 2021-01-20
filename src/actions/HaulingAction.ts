@@ -21,8 +21,8 @@ class HaulingAction extends Action {
   }
 
   public execute(): boolean {
-    console.log("I'm a hauler");
     const creep = Game.getObjectById(this.creep.id);
+    console.log(`I'm a hauler ${creep?.name}`);
     if (!creep) {
       console.log('Hauler died!');
       this.creep.data.performing = 'dead';
@@ -60,15 +60,16 @@ class HaulingAction extends Action {
       creep.moveTo(obj);
     }
 
+    // NOTE: this doesn't really work yet
     // hauling dropped resources
     const resources = this.room.find(FIND_DROPPED_RESOURCES);
-    if (!resources.length) {
+    if (resources.length) {
+      console.log('There are dropped resources');
       resources.map(val => {
         if (creep?.pickup(val) === ERR_NOT_IN_RANGE) creep.moveTo(val);
         return creep;
       });
     }
-
     return true;
   }
 

@@ -10,7 +10,7 @@ class HaulingQueue extends ActionQueue {
   public constructor(hauler: CreepWrapper, room: Room) {
     super();
     this.hauler = hauler;
-    for (let i = 0; i < 50; i++) ActionScheduler.get().scheduleAction(new HaulingAction(hauler, room));
+    for (let i = 0; i < 50; i++) this.actions.push(new HaulingAction(hauler, room));
   }
 
   public execute() {
