@@ -1,13 +1,13 @@
-import { cpuUsage } from "process";
-import ErrorMapper from "utils/ErrorMapper";
+import { cpuUsage } from 'process';
+import ErrorMapper from 'utils/ErrorMapper';
 
 function unwrappedLoop() {
   console.log(`Current game tick is ${Game.time}`);
 
   // Automatically delete memory of missing creeps
   Object.keys(Memory.creeps)
-    .filter((name) => !(name in Game.creeps))
-    .forEach((name) => delete Memory.creeps[name]);
+    .filter(name => !(name in Game.creeps))
+    .forEach(name => delete Memory.creeps[name]);
 
   // make pixels
   if (Game.cpu.bucket > 9000) Game.cpu.generatePixel();
