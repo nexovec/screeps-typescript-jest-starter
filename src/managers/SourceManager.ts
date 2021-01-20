@@ -25,6 +25,11 @@ class SourceManager {
     return null;
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  public unreserveSourceSlot(s: SourceWrapper) {
+    s.occupiedSlots--;
+  }
+
   public static getImmediateSurroudings(pos: RoomPosition) {
     const res = [];
     for (let x = -1; x < 2; x++) {

@@ -34,13 +34,14 @@ class HaulingAction extends Action {
     const sites = this.room.find(FIND_CONSTRUCTION_SITES);
     // NOTE: slow
     if (!this.siteId) {
-      // sites.sort((val1, val2) => {
-      //   const cost1 = PathFinder.search(creep.pos, val1.pos);
-      //   const cost2 = PathFinder.search(creep.pos, val2.pos);
-      //   if (cost1 === cost2) return 0;
-      //   if (cost1 <= cost2) return -1;
-      //   return 1;
-      // });
+      const spawn = Game.spawns.Spawn1;
+      sites.sort((val1, val2) => {
+        const cost1 = PathFinder.search(spawn.pos, val1.pos);
+        const cost2 = PathFinder.search(spawn.pos, val2.pos);
+        if (cost1 === cost2) return 0;
+        if (cost1 <= cost2) return -1;
+        return 1;
+      });
       if (!sites.length) {
         console.log('no construction sites!');
         return true;
@@ -54,7 +55,7 @@ class HaulingAction extends Action {
     }
     // NOTE: relies on Spawn1
     // NOTE: is greedy, will deplete spawn energy even if there's not enough creeps
-    if (creep.store.getUsedCapacity() === 0) {
+    if (creep.store.getUsedCapacity() === 0 && Game.spawns.Spawn1.store.getUsedCapacity(RESOURCE_ENERGY) > 250) {
       if (creep.withdraw(Game.spawns.Spawn1, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) creep.moveTo(Game.spawns.Spawn1);
     } else if (creep.build(obj) === ERR_NOT_IN_RANGE) {
       creep.moveTo(obj);

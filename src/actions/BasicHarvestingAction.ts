@@ -28,12 +28,18 @@ class BasicHarvestingAction extends Action {
     const source = Game.getObjectById(this.source.id) as Source;
     const c = Game.spawns.Spawn1.room.controller as StructureController;
 
-    // if creep is dead
-    if (!creep) {
-      this.creep.data.performing = 'dead';
-      this.isComplete = true;
-      return true;
-    }
+    // if no creep
+    if (this.creep.data.performing === 'spawning') {
+      console.log('spawning a creep!');
+      if (creep) this.creep.data.performing = 'harvesting';
+      else { return true; }
+    } if (!creep) {
+        this.creep.data.performing = 'dead';
+        this.isComplete = true;
+        console.log('harvester died!');
+        return true;
+      }
+      this.creep.data.performing = 'harvesting';
 
     if (!this.depositing) {
       if (creep.harvest(source) === ERR_NOT_IN_RANGE) creep.moveTo(source);
@@ -43,7 +49,6 @@ class BasicHarvestingAction extends Action {
     // switch to controller upgrading when spawn is full
     // NOTE: not optimal, will agro creeps when not needed
     if (Game.spawns.Spawn1.store.energy === 300) {
-      // console.log(Game.spawns.Spawn1.store.energy);
       this.depo = c;
     }
 

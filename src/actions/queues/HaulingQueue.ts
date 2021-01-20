@@ -1,5 +1,4 @@
 import HaulingAction from 'actions/HaulingAction';
-import ActionScheduler from 'ActionScheduler';
 import CreepWrapper from 'wrappers/CreepWrapper';
 import ActionQueue from './ActionQueue';
 

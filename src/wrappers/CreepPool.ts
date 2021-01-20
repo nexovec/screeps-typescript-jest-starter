@@ -29,7 +29,7 @@ class CreepPool {
     const creep = this.creeps.filter(val => val.id === creepId)[0];
     if (creep) {
       // TODO: undo this on finished task queue
-      creep.data.performing = performing;
+      if (creep.data.performing !== 'spawning') { creep.data.performing = performing; }
       creep.reserved = true;
     } else console.log(`creep with id: ${creepId} doesn't exist`);
   }

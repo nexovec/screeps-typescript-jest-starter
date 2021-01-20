@@ -29,12 +29,6 @@ class Root {
     this.designated = false;
     this.constructionSites = [];
     // register live creeps
-    _.map(Game.creeps, creep => {
-      if (!this.cp.containsCreep(creep.id)) {
-        console.log('Watch out, we have an unreserved rebel here!');
-        this.cp.addCreep(creep.id);
-      }
-    });
   }
 
   public static get() {
@@ -49,10 +43,11 @@ class Root {
       if (code === OK) {
         const selection = _.filter(Game.creeps, val => val.name === name);
         if (!selection.length) throw new Error('no creep with the specified name!');
-        console.log(JSON.stringify(selection));
         const creepId = selection[0].id;
         this.cp.addCreep(creepId);
-        return this.cp.getCreep(creepId);
+        const res = this.cp.getCreep(creepId) as CreepWrapper;
+        res.data.performing = 'spawning';
+        return res;
       }
     }
     return null;
@@ -76,13 +71,16 @@ class Root {
       this.cp.creeps.map(creep => {
         if (!creep.reserved) {
           const s: SourceWrapper | null = this.sm.reserveSourceSlot();
-          if (s && Root.harvesterCount(this.cp) < demandedHarvesters) {
+          // FIXME: harvesterCount doesn't increase, but creeps get spawned??
+          if (s) {
+            if (Root.harvesterCount(this.cp) < demandedHarvesters) {
+            CreepActions.basicCreepHarvesting(creep, s);
             this.cp.makeCreepReserved(creep.id, 'harvesting');
             console.log('spawning harvester');
-            CreepActions.basicCreepHarvesting(creep, s);
-          } else { // FIXME: haulingQueue gets terminated, don't know why
-            this.cp.makeCreepReserved(creep.id, 'hauling');
+            } else this.sm.unreserveSourceSlot(s);
+          } else {
             CreepActions.creepHauling(creep, r);
+            this.cp.makeCreepReserved(creep.id, 'hauling');
           }
         }
         return true;
