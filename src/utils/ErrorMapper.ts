@@ -1,4 +1,5 @@
 /* eslint-disable global-require, no-cond-assign, no-prototype-builtins, no-underscore-dangle */
+import _ from 'lodash';
 import { SourceMapConsumer } from 'source-map';
 
 export default class ErrorMapper {
