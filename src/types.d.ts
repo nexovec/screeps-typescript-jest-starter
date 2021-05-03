@@ -8,10 +8,15 @@ interface CreepMemory {
 interface Memory {
   uuid: number;
 }
+interface Source{
+  availableSlots: number;
+  occupiedSlots: number;
+}
 
 // `global` extension samples
 declare namespace NodeJS {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface Global {
+    genocide(): void;
   }
 }

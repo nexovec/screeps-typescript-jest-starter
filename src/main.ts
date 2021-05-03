@@ -1,14 +1,10 @@
-import { cpuUsage } from 'process';
-import roleBuilder, { Builder } from 'roles/builder';
-import roleHarvester from 'roles/harvester';
-import roleUpgrader, { Upgrader } from 'roles/upgrader';
+import _ from 'lodash';
 import Root from 'Root';
 import ErrorMapper from 'utils/ErrorMapper';
 import { runTower } from './tower';
+// eslint-disable-next-line no-restricted-syntax
 
 function unwrappedLoop() {
-  console.log(`Current game tick is ${Game.time}`);
-
   Object.values(Game.rooms).forEach(room => {
     if (room.controller?.my) {
       const towers = room.find<StructureTower>(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER } });
@@ -18,29 +14,28 @@ function unwrappedLoop() {
       });
     }
   });
+  // eslint-disable-next-line no-restricted-syntax
+  for (const creep of Object.keys(Game.creeps)) {
+    if (!Memory.creeps[creep]) Memory.creeps[creep] = { role: '' };
+    if (!Memory.creeps[creep].role) Memory.creeps[creep].role = '';
+  }
   Root.get().loop();
-  Object.values(Game.creeps).forEach(creep => {
-    if (creep.memory.role === 'harvester') {
-      roleHarvester.run(creep);
-    }
-    if (creep.memory.role === 'upgrader') {
-      roleUpgrader.run(creep as Upgrader);
-    }
-    if (creep.memory.role === 'builder') {
-      roleBuilder.run(creep as Builder);
-    }
-  });
 
   // Automatically delete memory of missing creeps
   Object.keys(Memory.creeps)
     .filter(name => !(name in Game.creeps))
     .forEach(name => delete Memory.creeps[name]);
 
-  if (Game.cpu.bucket > 9000) Game.cpu.generatePixel();
+  if (Game.cpu.generatePixel && Game.cpu.bucket > 9000) Game.cpu.generatePixel();
 }
 
 // When compiling TS to JS and bundling with rollup, the line numbers and file names in error messages change
 // This utility uses source maps to get the line numbers and file names of the original, TS source code
 const loop = ErrorMapper.wrapLoop(unwrappedLoop);
+function genocide() {
+  _.map(Game.creeps, c => c.suicide());
+  return 'All your creeps have been killed';
+}
 
 export { loop, unwrappedLoop };
+global.genocide = genocide;
