@@ -2,6 +2,7 @@ import { cpuUsage } from 'process';
 import roleBuilder, { Builder } from 'roles/builder';
 import roleHarvester from 'roles/harvester';
 import roleUpgrader, { Upgrader } from 'roles/upgrader';
+import Root from 'Root';
 import ErrorMapper from 'utils/ErrorMapper';
 import { runTower } from './tower';
 
@@ -17,7 +18,7 @@ function unwrappedLoop() {
       });
     }
   });
-
+  Root.get().loop();
   Object.values(Game.creeps).forEach(creep => {
     if (creep.memory.role === 'harvester') {
       roleHarvester.run(creep);
