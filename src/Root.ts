@@ -1,6 +1,7 @@
 import BasicRolesExecutor from 'components/BasicRolesExecutor';
 import BasicRolesAssigner from 'components/BasicRolesAssigner';
 import BasicSpawner from 'components/BasicSpawner';
+import RoleDeassigner from 'components/RoleDeassigner';
 
 class Root {
 
@@ -10,7 +11,7 @@ class Root {
   // FIXME:
   // eslint-disable-next-line class-methods-use-this
   public loop() {
-    console.log(`tick ${Game.cpu.bucket}`);
+    // console.log(`tick ${Game.cpu.bucket}`);
     this.components.forEach(component => {
       component.loop();
     });
@@ -20,6 +21,7 @@ class Root {
 
   private constructor() {
     this.components = [];
+    this.components.push(new RoleDeassigner());
     this.components.push(new BasicSpawner());
     this.components.push(new BasicRolesAssigner());
     this.components.push(new BasicRolesExecutor());

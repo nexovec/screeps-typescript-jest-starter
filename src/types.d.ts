@@ -2,6 +2,7 @@
 
 // memory extension samples
 interface CreepMemory {
+  flags: number;
   role: string;
 }
 

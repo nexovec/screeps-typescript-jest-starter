@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import _ from 'lodash';
 import Root from 'Root';
 import ErrorMapper from 'utils/ErrorMapper';
@@ -16,8 +17,9 @@ function unwrappedLoop() {
   });
   // eslint-disable-next-line no-restricted-syntax
   for (const creep of Object.keys(Game.creeps)) {
-    if (!Memory.creeps[creep]) Memory.creeps[creep] = { role: '' };
-    if (!Memory.creeps[creep].role) Memory.creeps[creep].role = '';
+    !Memory.creeps[creep] ? Memory.creeps[creep] = { role: '', flags: 0 } : 0;
+    !Memory.creeps[creep].role ? Memory.creeps[creep].role = '' : 0;
+    !Memory.creeps[creep].flags ? Memory.creeps[creep].flags = 0 : 0;
   }
   Root.get().loop();
 

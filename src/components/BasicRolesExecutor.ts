@@ -4,11 +4,12 @@ import roleUpgrader, { Upgrader } from 'roles/upgrader';
 
 class BasicRolesExecutor {
 
+  // eslint-disable-next-line class-methods-use-this
   public loop() {
     Object.values(Game.creeps).forEach(creep => {
       console.log(`${creep.memory.role}`);
       if (creep.memory.role === 'harvester') {
-        console.log('dig, dig, I am harvesting');
+        // console.log('dig, dig, I am harvesting');
         roleHarvester.run(creep);
       }
       if (creep.memory.role === 'upgrader') {
