@@ -1,4 +1,5 @@
 import { mockInstanceOf, mockStructure } from 'screeps-jest';
+import FLAGS from 'flags';
 import roleHarvester from './harvester';
 
 const source1 = mockInstanceOf<Source>({ id: 'source1' as Id<Source> });
@@ -56,16 +57,19 @@ describe('Harvester role', () => {
       expect(creep.room.find).toHaveBeenCalledWith(FIND_STRUCTURES, { filter: expect.any(Function) });
     });
 
-    it("should move towards a non-full structure, when it's full and out of range to transfer", () => {
+    it('should reset when full', () => {
       const creep = mockInstanceOf<Creep>({
         moveTo: () => OK,
+        id: 'creep1' as Id<Creep>,
+        memory: { flags: 0 },
         room,
         store: { getFreeCapacity: () => 0 },
         transfer: () => ERR_NOT_IN_RANGE
       });
 
       roleHarvester.run(creep);
-      expect(creep.moveTo).toHaveBeenCalledWith(extension, expect.anything());
+      // eslint-disable-next-line no-bitwise
+      expect(creep.memory.flags & FLAGS.ROLE_RESET);
     });
 
   });

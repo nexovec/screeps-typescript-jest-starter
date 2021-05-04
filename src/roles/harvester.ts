@@ -1,11 +1,15 @@
+const cache: {[id: string]: Id<Source>} = {};
 const roleHarvester = {
 
   run(creep: Creep) {
-    if (creep.store.getFreeCapacity() > 0) {
-      // FIXME: cache source
+    if (!cache[creep.id]) {
       const sources = creep.room.find(FIND_SOURCES);
-      if (creep.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
+      cache[creep.id] = sources[0].id;
+      sources[0].occupiedSlots++;
+    }
+    if (creep.store.getFreeCapacity() > 0) {
+      if (creep.harvest(Game.getObjectById(cache[creep.id]) as Source) === ERR_NOT_IN_RANGE) {
+        creep.moveTo(Game.getObjectById(cache[creep.id]) as Source, { visualizePathStyle: { stroke: '#ffaa00' } });
       }
     } else {
       const targets = creep.room.find(FIND_STRUCTURES, { filter: s => this.isToBeFilled(s) });
@@ -16,6 +20,8 @@ const roleHarvester = {
       } else {
         // FIXME: use flags for this
         creep.memory.role = 'builder';
+        (Game.getObjectById(cache[creep.id]) as Source).occupiedSlots--;
+        delete cache[creep.id];
       }
     }
   },

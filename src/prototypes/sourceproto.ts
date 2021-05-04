@@ -8,6 +8,10 @@ Object.defineProperty(Source.prototype, 'availableSlots', {
   get(): number {
     if (!cacheAvailableSlots[this.id])cacheAvailableSlots[this.id] = getSlots();
     return cacheAvailableSlots[this.id];
+  },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  set(_num: number): void {
+    throw new Error('source.availableSlots is readonly');
   }
 });
 Object.defineProperty(Source.prototype, 'occupiedSlots', {
