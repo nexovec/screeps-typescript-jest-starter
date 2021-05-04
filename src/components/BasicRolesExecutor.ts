@@ -4,10 +4,6 @@ import roleUpgrader, { Upgrader } from 'roles/upgrader';
 
 class BasicRolesExecutor {
 
-  public constructor() {
-    // TODO:
-  }
-
   public loop() {
     Object.values(Game.creeps).forEach(creep => {
       console.log(`${creep.memory.role}`);

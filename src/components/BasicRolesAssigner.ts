@@ -9,10 +9,6 @@ const upgraderCount = 0;
 const upgraderMaxCount = 0;
 class BasicRolesAssigner {
 
-  public constructor() {
-
-  }
-
   public loop() {
     // TODO: reset accordingly
     for (const creep of Object.keys(Game.creeps)) {
