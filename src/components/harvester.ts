@@ -1,4 +1,6 @@
 /* eslint-disable max-len */
+import 'prototypes/prototypeSource';
+
 const cacheForSources: {[creepId: string]: Id<Source>} = {};
 function harvest(creep: Creep) {
   if (!cacheForSources[creep.id]) {
@@ -25,7 +27,6 @@ function getMostSuitableSourceId(sources: Source[]) {
   const back = sources
     .filter(src => src.availableWorkSpace > src.occupiedWorkSpace) // filter on free positions at source
     .map((src, index, arr) => { // catch the most accessible source into i
-      console.log(`this doesn't run :((( ${Object.values(arr)}`);
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       if (src.availableWorkSpace - src.occupiedWorkSpace > arr[i].availableWorkSpace - arr[i].occupiedWorkSpace)i = index;
       return src;

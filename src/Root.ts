@@ -4,6 +4,7 @@ import roleAssigner from 'components/RoleAssigner';
 
 class Root {
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private components: any[];
 
   public loop() {

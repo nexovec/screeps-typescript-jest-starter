@@ -7,7 +7,7 @@ function getAvailableWorkSpace(source: Source) {
 }
 Object.defineProperty(Source.prototype, 'availableWorkSpace', {
   get() {
-    if (!cacheAvailable[this.id])cacheAvailable[this.id] = getAvailableWorkSpace(this);
+    if (cacheAvailable[this.id] === undefined)cacheAvailable[this.id] = getAvailableWorkSpace(this);
     return cacheAvailable[this.id];
   },
   set() {
@@ -16,7 +16,7 @@ Object.defineProperty(Source.prototype, 'availableWorkSpace', {
 });
 Object.defineProperty(Source.prototype, 'occupiedWorkSpace', {
   get() {
-    if (!cacheOccupied[this.id])cacheOccupied[this.id] = 0;
+    if (cacheOccupied[this.id] === undefined)cacheOccupied[this.id] = 0;
     return cacheOccupied[this.id];
   },
   set(num: number) {

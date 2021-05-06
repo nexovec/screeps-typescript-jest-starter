@@ -19,5 +19,12 @@ function unwrappedLoop() {
 // When compiling TS to JS and bundling with rollup, the line numbers and file names in error messages change
 // This utility uses source maps to get the line numbers and file names of the original, TS source code
 const loop = ErrorMapper.wrapLoop(unwrappedLoop);
-
+// eslint-disable-next-line func-names
+global.genocide = function () {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const creep of Object.values(Game.creeps)) {
+    creep.suicide();
+    console.log('All creeps have been killed!');
+  }
+};
 export { loop, unwrappedLoop };
