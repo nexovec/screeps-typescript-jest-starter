@@ -1,8 +1,9 @@
 import Components from 'Components';
+import builder from 'components/roles/builder';
 import creepSpawner from 'components/creepSpawner';
-import harvester from 'components/harvester';
+import harvester from 'components/roles/harvester';
 import roleAssigner from 'components/RoleAssigner';
-import upgrader from 'components/upgrader';
+import upgrader from 'components/roles/upgrader';
 
 class Root {
 
@@ -27,6 +28,7 @@ class Root {
     this.components[Components.CREEP_SPAWNER] = creepSpawner;
     this.components[Components.HARVESTER] = harvester;
     this.components[Components.UPGRADER] = upgrader;
+    this.components[Components.BUILDER] = builder;
   }
 
   public static get(): Root {

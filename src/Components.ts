@@ -4,5 +4,6 @@ enum Components {
   ROLE_ASSIGNER,
   HARVESTER,
   UPGRADER,
+  BUILDER
 }
 export default Components;
