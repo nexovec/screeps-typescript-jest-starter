@@ -2,16 +2,17 @@ import Root from 'Root';
 import ErrorMapper from 'utils/ErrorMapper';
 
 function unwrappedLoop() {
-  console.log(`Current game tick is ${Game.time}`);
+  // console.log(`Current game tick is ${Game.time}`);
   // Automatically delete memory of missing creeps
   Object.keys(Memory.creeps)
     .filter(name => !(name in Game.creeps))
     .forEach(name => delete Memory.creeps[name]);
-  Root.get().loop();
   Object.keys(Game.creeps).forEach(creepId => {
-    if (!Memory.creeps[creepId])Memory.creeps[creepId] = { role: '' };
-    if (!Memory.creeps[creepId].role)Memory.creeps[creepId].role = '';
+    if (Memory.creeps[creepId] === undefined) Memory.creeps[creepId] = { role: '', flags: 0 };
+    if (Memory.creeps[creepId].role === undefined) Memory.creeps[creepId].role = '';
+    if (Memory.creeps[creepId].flags === undefined) Memory.creeps[creepId].flags = 0;
   });
+  Root.get().loop();
 
   if (Game.cpu.generatePixel && Game.cpu.bucket > 9000) Game.cpu.generatePixel();
 }

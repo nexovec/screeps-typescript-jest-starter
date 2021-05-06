@@ -1,4 +1,6 @@
+/* eslint-disable no-bitwise */
 /* eslint-disable max-len */
+import FLAGS from 'FLAGS';
 import 'prototypes/prototypeSource';
 
 const cacheForSources: {[creepId: string]: Id<Source>} = {};
@@ -19,7 +21,7 @@ function harvest(creep: Creep) {
       if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
         creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
       }
-    }
+    } else creep.memory.flags |= FLAGS.ROLE_RESET;
   }
 }
 function getMostSuitableSourceId(sources: Source[]) {
@@ -32,7 +34,6 @@ function getMostSuitableSourceId(sources: Source[]) {
       return src;
     })
     .filter((_src, index) => (i === index)); // get the i as Source
-  console.log(`${back}`);
   if (back[0]) {
     console.log(`harvesting from ${back[0]}`);
     return back[0].id;
@@ -54,6 +55,9 @@ const harvester = {
   loop() {
     Object.values(Game.creeps).forEach((creep: Creep) => {
       if (creep.memory.role === 'harvester')harvest(creep);
+      // eslint-disable-next-line no-bitwise
+      // FIXME: is dependent on roleAssigner
+      if (creep.memory.flags & FLAGS.ROLE_RESET)(Game.getObjectById(cacheForSources[creep.id])as Source).occupiedWorkSpace--;
     });
   }
 };

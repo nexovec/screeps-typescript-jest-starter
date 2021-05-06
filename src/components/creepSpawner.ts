@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const maxCreeps = 6;
+const maxCreeps = 8;
 const creepSpawner = {
   loop() {
     if (Object.keys(Game.creeps).length < maxCreeps) {
