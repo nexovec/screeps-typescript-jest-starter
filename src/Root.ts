@@ -2,7 +2,6 @@ import Components from 'Components';
 import creepSpawner from 'components/creepSpawner';
 import harvester from 'components/harvester';
 import roleAssigner from 'components/RoleAssigner';
-import roleDeassigner from 'components/roleDeassigner';
 import upgrader from 'components/upgrader';
 
 class Root {
@@ -24,7 +23,6 @@ class Root {
 
   private constructor() {
     this.components = {};
-    this.components[Components.ROLE_DEASSIGNER] = roleDeassigner;
     this.components[Components.ROLE_ASSIGNER] = roleAssigner;
     this.components[Components.CREEP_SPAWNER] = creepSpawner;
     this.components[Components.HARVESTER] = harvester;

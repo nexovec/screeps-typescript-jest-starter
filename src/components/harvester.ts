@@ -22,7 +22,7 @@ function harvest(creep: Creep) {
       if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
         creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
       }
-    } else creep.memory.flags |= (FLAGS.ROLE_RESET | FLAGS.ROLES_SHOULD_UPGRADER);
+    } else creep.memory.flags |= (FLAGS.ROLE_RESET);
   }
 }
 function getMostSuitableSourceId(sources: Source[]) {
@@ -59,7 +59,7 @@ const harvester = {
         if (creep.memory.flags & FLAGS.ROLE_RESET)(Game.getObjectById(cacheForSources[creep.id])as Source).occupiedWorkSpace--;
       }
     });
-    return [];
+    return [Components.ROLE_ASSIGNER];
   }
 };
 export default harvester;

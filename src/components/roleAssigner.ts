@@ -6,9 +6,13 @@ const roleAssigner = {
   loop(): Components[] {
     Object.values(Game.creeps).forEach(creep => {
       if (!creep.memory.role || creep.memory.role === '') creep.memory.role = 'harvester';
-      if (creep.memory.flags & FLAGS.ROLES_SHOULD_UPGRADER) {
+      if ((creep.memory.flags & (FLAGS.ROLES_SHOULD_HARVESTER | FLAGS.ROLE_RESET))
+      === (FLAGS.ROLE_RESET | FLAGS.ROLES_SHOULD_HARVESTER)) {
+        creep.memory.role = 'harvester';
+        creep.memory.flags -= FLAGS.ROLE_RESET | FLAGS.ROLES_SHOULD_HARVESTER;
+      }
+      if (creep.memory.flags & FLAGS.ROLE_RESET) {
         creep.memory.role = 'upgrader';
-        creep.memory.flags -= FLAGS.ROLES_SHOULD_UPGRADER;
       }
     });
     return [];
