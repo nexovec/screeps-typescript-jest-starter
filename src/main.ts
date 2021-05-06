@@ -25,7 +25,7 @@ global.genocide = function () {
   // eslint-disable-next-line no-restricted-syntax
   for (const creep of Object.values(Game.creeps)) {
     creep.suicide();
-    console.log('All creeps have been killed!');
   }
+  console.log('All creeps have been killed!');
 };
 export { loop, unwrappedLoop };

@@ -11,21 +11,18 @@ class Root {
   private components: {[id: number]: any};
 
   public loop() {
-    // this.components.forEach(cp => cp.loop());
-    // FIXME: do something that isn't ugly instead
-    Object.keys(this.components).forEach((id: string) => {
-      const back = this.components[Number(id)].loop();
-    });
+    let demands: Components[] = [];
+    demands = demands.concat(Object.keys(this.components).map(p => Number(p) as Components)).reverse();
+    while (demands.length > 0) {
+      const componentCode = demands.pop() as Components;
+      this.components[componentCode].loop();
+      demands = demands.reverse().concat(this.components[componentCode].loop()).reverse();
+    }
   }
 
   private static instance: Root;
 
   private constructor() {
-    // this.components = [];
-    // this.components.push(roleAssigner);
-    // this.components.push(creepSpawner);
-    // this.components.push(harvester);
-    // this.components.push(upgrader);
     this.components = {};
     this.components[Components.ROLE_DEASSIGNER] = roleDeassigner;
     this.components[Components.ROLE_ASSIGNER] = roleAssigner;

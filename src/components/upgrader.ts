@@ -1,3 +1,4 @@
+import Components from 'Components';
 import FLAGS from 'FLAGS';
 
 /* eslint-disable no-bitwise */
@@ -18,19 +19,15 @@ function upgrade(creep: Creep) {
       }
     }
   } else {
-    // const sources = creep.room.find(FIND_SOURCES);
-    // // FIXME: redirect to harvesting
-    // if (creep.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
-    //   creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
-    // }
     creep.memory.flags |= FLAGS.ROLE_RESET;
   }
 }
 const upgrader = {
-  loop() {
+  loop(): Components[] {
     Object.values(Game.creeps).forEach((creep: Creep) => {
       if (creep.memory.role === 'upgrader') upgrade(creep);
     });
+    return [];
   }
 };
 export default upgrader;
