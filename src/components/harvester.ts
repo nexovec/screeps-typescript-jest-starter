@@ -21,7 +21,7 @@ function harvest(creep: Creep) {
       if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
         creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
       }
-    } else creep.memory.flags |= FLAGS.ROLE_RESET;
+    } else creep.memory.flags |= (FLAGS.ROLE_RESET | FLAGS.ROLES_SHOULD_UPGRADE);
   }
 }
 function getMostSuitableSourceId(sources: Source[]) {
@@ -54,10 +54,12 @@ function isToBeFilled(structure: Structure): boolean {
 const harvester = {
   loop() {
     Object.values(Game.creeps).forEach((creep: Creep) => {
-      if (creep.memory.role === 'harvester')harvest(creep);
-      // eslint-disable-next-line no-bitwise
-      // FIXME: is dependent on roleAssigner
-      if (creep.memory.flags & FLAGS.ROLE_RESET)(Game.getObjectById(cacheForSources[creep.id])as Source).occupiedWorkSpace--;
+      if (creep.memory.role === 'harvester') {
+        harvest(creep);
+        // eslint-disable-next-line no-bitwise
+        // FIXME: is dependent on roleAssigner
+        if (creep.memory.flags & FLAGS.ROLE_RESET)(Game.getObjectById(cacheForSources[creep.id])as Source).occupiedWorkSpace--;
+      }
     });
   }
 };

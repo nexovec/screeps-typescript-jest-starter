@@ -18,11 +18,12 @@ function upgrade(creep: Creep) {
       }
     }
   } else {
-    const sources = creep.room.find(FIND_SOURCES);
-    // FIXME: redirect to harvesting
-    if (creep.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
-      creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
-    }
+    // const sources = creep.room.find(FIND_SOURCES);
+    // // FIXME: redirect to harvesting
+    // if (creep.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
+    //   creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
+    // }
+    creep.memory.flags |= FLAGS.ROLE_RESET;
   }
 }
 const upgrader = {
