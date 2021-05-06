@@ -1,13 +1,22 @@
+import creepSpawner from 'components/creepSpawner';
+import harvester from 'components/harvester';
+import roleAssigner from 'components/RoleAssigner';
+
 class Root {
 
+  private components: any[];
+
   public loop() {
-    throw new Error('Method not implemented.');
+    this.components.forEach(cp => cp.loop());
   }
 
   private static instance: Root;
 
   private constructor() {
-
+    this.components = [];
+    this.components.push(roleAssigner);
+    this.components.push(creepSpawner);
+    this.components.push(harvester);
   }
 
   public static get(): Root {

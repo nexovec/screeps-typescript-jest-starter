@@ -8,6 +8,10 @@ interface CreepMemory {
 interface Memory {
   uuid: number;
 }
+interface Source{
+  occupiedWorkSpace: number;
+  availableWorkSpace: number;
+}
 
 // `global` extension samples
 declare namespace NodeJS {
