@@ -3,6 +3,7 @@
 import Components from 'Components';
 import FLAGS from 'FLAGS';
 import 'prototypes/prototypeSource';
+import helperFunctions from 'utils/helperFunctions';
 
 const cacheForSources: {[creepId: string]: Id<Source>} = {};
 function harvest(creep: Creep) {
@@ -28,7 +29,7 @@ function harvest(creep: Creep) {
 function getMostSuitableSourceId(sources: Source[]) {
   let i = 0;
   const back = sources
-    .filter(src => src.availableWorkSpace > src.occupiedWorkSpace) // filter on free positions at source
+    .filter(src => src.availableWorkSpace + helperFunctions.getExtraHarvestersPerSource(src) > src.occupiedWorkSpace) // filter on free positions at source
     .map((src, index, arr) => { // catch the most accessible source into i
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       if (src.availableWorkSpace - src.occupiedWorkSpace > arr[i].availableWorkSpace - arr[i].occupiedWorkSpace)i = index;
