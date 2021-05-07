@@ -6,8 +6,8 @@ const maxCreeps = 105;
 const extras = {
   preferredExtraHarvesters: Game.spawns.Spawn1.room.find(FIND_SOURCES)
     .map(src => helperFunctions.getExtraHarvestersPerSource(src)).reduce((total: number, c: number) => total + c),
-  preferredExtraBuilders: 2,
-  preferredExtraUpgraders: 2
+  preferredExtraBuilders: 1,
+  preferredExtraUpgraders: 1
 };
 function getAllSourceSlots() {
   return Game.spawns.Spawn1.room.find(FIND_SOURCES)

@@ -14,14 +14,15 @@ function harvest(creep: Creep) {
   }
   if (creep.store.getFreeCapacity() > 0) {
     if (creep.harvest(Game.getObjectById(cacheForSources[creep.id])as Source) === ERR_NOT_IN_RANGE) {
-      creep.moveTo(Game.getObjectById(cacheForSources[creep.id])as Source,
-        { visualizePathStyle: { stroke: '#ffaa00' } });
+      creep.moveTo(Game.getObjectById(cacheForSources[creep.id])as Source);
+      // ,{ visualizePathStyle: { stroke: '#ffaa00' } });
     }
   } else {
     const targets = creep.room.find(FIND_STRUCTURES, { filter: s => isToBeFilled(s) });
     if (targets.length > 0) {
       if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
+        // creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
+        creep.moveTo(targets[0]);
       }
     } else creep.memory.flags |= (FLAGS.ROLE_RESET);
   }
