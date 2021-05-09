@@ -12,6 +12,7 @@ function unwrappedLoop() {
     if (Memory.creeps[creepId].role === undefined) Memory.creeps[creepId].role = '';
     if (Memory.creeps[creepId].flags === undefined) Memory.creeps[creepId].flags = 0;
   });
+  if (!Memory.components)Memory.components = {};
   Root.get().loop();
 
   if (Game.cpu.generatePixel && Game.cpu.bucket > 9000) Game.cpu.generatePixel();

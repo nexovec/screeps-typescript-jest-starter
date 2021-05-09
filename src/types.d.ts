@@ -7,6 +7,8 @@ interface CreepMemory {
 }
 
 interface Memory {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  components: {[name: number]: any};
   uuid: number;
 }
 interface Source{
