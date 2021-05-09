@@ -11,10 +11,11 @@ function build(creep: Creep, sites: ConstructionSite<BuildableStructureConstant>
     // TODO: ask to not dispatch any builders
     if (!structures.length) creep.memory.flags |= FLAGS.ROLE_RESET;
     else if (creep.withdraw(structures[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) creep.moveTo(structures[0]);
-    return;
   }
-  if (creep.build(sites[0]) === ERR_NOT_IN_RANGE)creep.moveTo(sites[0]);
-  else {
+  const returnCode = creep.build(sites[0]);
+  if (returnCode === ERR_NOT_IN_RANGE)creep.moveTo(sites[0]);
+  // eslint-disable-next-line no-empty
+  else if (returnCode === OK) {} else {
     console.log('build is done or stuck');
     creep.memory.flags |= FLAGS.ROLE_RESET;
   }
