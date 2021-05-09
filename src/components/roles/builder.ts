@@ -33,9 +33,8 @@ const builder = {
   loop(): Components[] {
     if (Memory.components[Components.BUILDER] === undefined)Memory.components[Components.BUILDER] = {};
     const sites = Game.spawns.Spawn1.room.find(FIND_CONSTRUCTION_SITES);
-    let areSites = true;
-    if (!sites.length) areSites = false;
-    Memory.components[Components.BUILDER].no_sites = areSites;
+    const areSites = sites.length !== 0;
+    Memory.components[Components.BUILDER].no_sites = !areSites;
     Object.values(Game.creeps).forEach(creep => {
       if (creep.memory.role === 'builder')build(creep, sites);
     });
@@ -43,3 +42,5 @@ const builder = {
   }
 };
 export default builder;
+if (Memory.components[Components.BUILDER] === undefined)Memory.components[Components.BUILDER] = {};
+Memory.components[Components.BUILDER].no_sites = Game.spawns.Spawn1.room.find(FIND_CONSTRUCTION_SITES).length !== 0;

@@ -20,6 +20,19 @@ const architect = {
         } else done += 1;
       }
       const isDone = done === 8;
+      // build road from spawn to sources
+      if (isDone) {
+        room.find(FIND_SOURCES).forEach(src => {
+          const spawn = room.find(FIND_MY_SPAWNS)[0];
+          const { controller } = room;
+          const path = PathFinder.search(spawn.pos, { pos: src.pos, range: 1 });
+          path.path.forEach(pos => {
+            if (pos === spawn.pos) return;
+            room.createConstructionSite(pos.x, pos.y, STRUCTURE_ROAD);
+          });
+        });
+        // TODO: check if done
+      }
     }
     return [];
   }
