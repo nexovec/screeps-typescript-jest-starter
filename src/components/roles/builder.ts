@@ -3,7 +3,7 @@ import Components from 'Components';
 import FLAGS from 'FLAGS';
 
 const cacheBuilding: {[name: string]: boolean} = {};
-function build(creep: Creep) {
+function build(creep: Creep, sites: ConstructionSite<BuildableStructureConstant>[]) {
   if (!cacheBuilding[creep.id] && creep.store.energy !== 0) cacheBuilding[creep.id] = true;
   if (!creep.store.energy) cacheBuilding[creep.id] = false;
   if (!cacheBuilding[creep.id]) {
@@ -13,10 +13,9 @@ function build(creep: Creep) {
     else if (creep.withdraw(structures[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) creep.moveTo(structures[0]);
     return;
   }
-  const sites = Game.spawns.Spawn1.room.find(FIND_CONSTRUCTION_SITES);
   if (creep.build(sites[0]) === ERR_NOT_IN_RANGE)creep.moveTo(sites[0]);
   else {
-    console.log('nothing to build');
+    console.log('build is done or stuck');
     creep.memory.flags |= FLAGS.ROLE_RESET;
   }
 }
@@ -32,13 +31,13 @@ function hasEnergy(structure: Structure): boolean {
 }
 const builder = {
   loop(): Components[] {
+    if (Memory.components[Components.BUILDER] === undefined)Memory.components[Components.BUILDER] = {};
     const sites = Game.spawns.Spawn1.room.find(FIND_CONSTRUCTION_SITES);
-    if (!sites.length) {
-      // TODO: ask to not dispatch any builders
-      return [];
-    }
+    let areSites = true;
+    if (!sites.length) areSites = false;
+    Memory.components[Components.BUILDER].no_sites = areSites;
     Object.values(Game.creeps).forEach(creep => {
-      if (creep.memory.role === 'builder')build(creep);
+      if (creep.memory.role === 'builder')build(creep, sites);
     });
     return [];
   }

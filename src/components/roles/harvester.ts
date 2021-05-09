@@ -40,6 +40,7 @@ function getMostSuitableSourceId(sources: Source[]) {
   if (back[0]) {
     return back[0].id;
   }
+  console.log('defaulting to the first source');
   return sources[0].id;
 }
 function isToBeFilled(structure: Structure): boolean {
